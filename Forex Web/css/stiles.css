@@ -1,0 +1,26 @@
+body{
+    background: url("../img/bg.jpeg");
+    background-size: cover;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar-brand{
+    font-size: 50px;
+}
+
+.navbar .nav-item .nav-link{
+    color: azure;
+}
+
+.form-check-label {
+    color: azure;
+}
+
+form label{
+    color: azure;
+}
+
+p{
+    color: azure;
+    font-size: 20px;
+}
