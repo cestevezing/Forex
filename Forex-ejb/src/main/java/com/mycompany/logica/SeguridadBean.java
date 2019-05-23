@@ -5,7 +5,10 @@
  */
 package com.mycompany.logica;
 
+import com.mycompany.controller.SeguridadJpaController;
+import com.mycompany.entidades.Seguridad;
 import com.mycompany.interfaz.SeguridadBeanLocal;
+import java.util.List;
 import javax.ejb.Stateless;
 
 /**
@@ -13,14 +16,22 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class SeguridadBean implements SeguridadBeanLocal {
-
+    
+    
     @Override
-    public boolean validarToken() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int validarToken(String token) {
+        SeguridadJpaController dao = new SeguridadJpaController();
+        List<Seguridad> lista = dao.findSeguridadEntities();
+        for (Seguridad lista1 : lista) {
+            if(lista1.getToken().equals(token)){
+                return lista1.getUser();
+            }
+        }
+        return -1;
     }
 
     @Override
-    public void agregarToken() {
+    public void agregarToken(String token, int user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

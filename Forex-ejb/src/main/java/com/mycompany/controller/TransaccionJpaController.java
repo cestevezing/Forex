@@ -5,15 +5,11 @@
  */
 package com.mycompany.controller;
 
-import com.mycompany.controller.exceptions.NonexistentEntityException;
-import com.mycompany.controller.exceptions.RollbackFailureException;
+
 import java.io.Serializable;
 import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.mycompany.entidades.Usuario;
-import com.mycompany.entidades.Divisa;
 import com.mycompany.entidades.Transaccion;
 import java.util.List;
 import javax.persistence.EntityManager;

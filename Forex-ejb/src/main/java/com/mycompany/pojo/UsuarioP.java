@@ -22,7 +22,7 @@ public class UsuarioP {
     public UsuarioP() {
     }
 
-    public UsuarioP(int id, String name, String nameUser, String email, String password, int outlay, int earnings) {
+    public UsuarioP(int id, String name, String nameUser, String email, String password, double outlay, double earnings) {
         this.id = id;
         this.name = name;
         this.nameUser = nameUser;

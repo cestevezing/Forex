@@ -15,6 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.UserTransaction;
@@ -25,94 +26,57 @@ import javax.transaction.UserTransaction;
  */
 public class SeguridadJpaController implements Serializable {
 
-    public SeguridadJpaController(UserTransaction utx, EntityManagerFactory emf) {
-        this.utx = utx;
-        this.emf = emf;
+    public SeguridadJpaController() {
+        this.em = Persistence.createEntityManagerFactory("com.mycompany_Forex-ejb_ejb_1.0-SNAPSHOTPU").createEntityManager();
+
     }
-    private UserTransaction utx = null;
-    private EntityManagerFactory emf = null;
+    
+    private EntityManager em = null;
 
     public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+        return em;
     }
 
     public void create(Seguridad seguridad) throws PreexistingEntityException, RollbackFailureException, Exception {
-        EntityManager em = null;
         try {
-            utx.begin();
-            em = getEntityManager();
+            em.getTransaction().begin();
             em.persist(seguridad);
-            utx.commit();
-        } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            if (findSeguridad(seguridad.getId()) != null) {
-                throw new PreexistingEntityException("Seguridad " + seguridad + " already exists.", ex);
-            }
-            throw ex;
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
         } finally {
-            if (em != null) {
-                em.close();
-            }
+            em.close();
         }
     }
 
     public void edit(Seguridad seguridad) throws NonexistentEntityException, RollbackFailureException, Exception {
-        EntityManager em = null;
         try {
-            utx.begin();
-            em = getEntityManager();
-            seguridad = em.merge(seguridad);
-            utx.commit();
-        } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            String msg = ex.getLocalizedMessage();
-            if (msg == null || msg.length() == 0) {
-                Integer id = seguridad.getId();
-                if (findSeguridad(id) == null) {
-                    throw new NonexistentEntityException("The seguridad with id " + id + " no longer exists.");
-                }
-            }
-            throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
+            em.getTransaction().begin();
+            Seguridad seg = em.find(Seguridad.class, seguridad.getId());
+
+            seg.setToken(seguridad.getToken());
+            seg.setUser(seguridad.getUser());
+
+            em.getTransaction().commit();
+      
+        }catch(Exception e){
+            System.out.println("Error: " + e.getMessage());
+        }
+        finally{
+            em.close();
         }
     }
 
     public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
-        EntityManager em = null;
         try {
-            utx.begin();
-            em = getEntityManager();
-            Seguridad seguridad;
-            try {
-                seguridad = em.getReference(Seguridad.class, id);
-                seguridad.getId();
-            } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The seguridad with id " + id + " no longer exists.", enfe);
-            }
-            em.remove(seguridad);
-            utx.commit();
-        } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
+            em.getTransaction().begin();
+            Seguridad seg = em.find(Seguridad.class, id);
+            em.remove(seg);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }finally{
+            em.close();
         }
     }
 

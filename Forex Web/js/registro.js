@@ -14,13 +14,12 @@ $('#formulario').submit(function (evento) {
             earnings : 0
         }),
         success: function (data, textstatus, jQxhr) {
-            alert(data);
+            alert(data.respuesta);
             window.location = "Login.html";
         },
         error: function (data, textstatus, jQxhr) {
-            alert('El UserName o Id ya existen')
+            alert(data.responseJSON.respuesta)
         }
     })
 });
 
-$.getJSON("https://api.ipify.org/?format=json", function(e) { console.log(e.ip); }); 
