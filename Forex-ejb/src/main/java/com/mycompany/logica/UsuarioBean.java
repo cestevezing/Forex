@@ -23,17 +23,17 @@ public class UsuarioBean implements UsuarioBeanLocal {
     }
 
     @Override
-    public boolean login(String username, String pass) {
+    public int login(String username, String pass) {
         
         UsuarioJpaController dao = new UsuarioJpaController();
         List<Usuario> lista = dao.findUsuarioEntities();
         
         for (Usuario lista1 : lista) {
             if (lista1.getNameUser().equals(username) && lista1.getPassword().equals(pass)) {
-                return true;
+                return lista1.getId();
             }            
         }
-        return false;
+        return -1;
     }
 
     @Override

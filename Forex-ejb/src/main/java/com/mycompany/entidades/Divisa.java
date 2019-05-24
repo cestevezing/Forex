@@ -36,8 +36,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Divisa.findByName", query = "SELECT d FROM Divisa d WHERE d.name = :name"),
     @NamedQuery(name = "Divisa.findByValue", query = "SELECT d FROM Divisa d WHERE d.value = :value")})
 public class Divisa implements Serializable {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "divisaId")
-    private List<Historial> historialList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,6 +53,8 @@ public class Divisa implements Serializable {
     private double value;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "divisaId")
     private List<Transaccion> transaccionList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "divisaId")
+    private List<Historial> historialList;
 
     public Divisa() {
     }
@@ -102,6 +102,15 @@ public class Divisa implements Serializable {
         this.transaccionList = transaccionList;
     }
 
+    @XmlTransient
+    public List<Historial> getHistorialList() {
+        return historialList;
+    }
+
+    public void setHistorialList(List<Historial> historialList) {
+        this.historialList = historialList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -125,15 +134,6 @@ public class Divisa implements Serializable {
     @Override
     public String toString() {
         return "com.mycompany.entidades.Divisa[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public List<Historial> getHistorialList() {
-        return historialList;
-    }
-
-    public void setHistorialList(List<Historial> historialList) {
-        this.historialList = historialList;
     }
     
 }

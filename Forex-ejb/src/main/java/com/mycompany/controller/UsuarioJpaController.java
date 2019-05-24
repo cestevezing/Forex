@@ -5,15 +5,24 @@
  */
 package com.mycompany.controller;
 
+import com.mycompany.controller.exceptions.IllegalOrphanException;
+import com.mycompany.controller.exceptions.NonexistentEntityException;
+import com.mycompany.controller.exceptions.PreexistingEntityException;
+import com.mycompany.controller.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import javax.persistence.Query;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import com.mycompany.entidades.Transaccion;
 import com.mycompany.entidades.Usuario;
 import com.mycompany.pojo.UsuarioP;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.transaction.UserTransaction;
 
 /**
  *
@@ -21,30 +30,34 @@ import javax.persistence.Persistence;
  */
 public class UsuarioJpaController implements Serializable {
 
-    private EntityManager em = null;
-
     public UsuarioJpaController() {
+        this.utx = utx;
         this.em = Persistence.createEntityManagerFactory("com.mycompany_Forex-ejb_ejb_1.0-SNAPSHOTPU").createEntityManager();
     }
-    
-    
+    private UserTransaction utx = null;
+    private EntityManager em = null;
+
     public EntityManager getEntityManager() {
         return em;
     }
 
-    public void create(Usuario usuario){
+    public void create(Usuario usuario) {
         try {
             em.getTransaction().begin();
             em.persist(usuario);
             em.getTransaction().commit();
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+
+        } catch (Exception ex) {
+            System.out.println("error");
+            throw ex;
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
-    public void edit(UsuarioP usuario){
+    public void edit(UsuarioP usuario) {
         try {
             em.getTransaction().begin();
             Usuario user = em.find(Usuario.class, usuario.getId());
@@ -54,11 +67,10 @@ public class UsuarioJpaController implements Serializable {
             user.setEmail(usuario.getEmail());
 
             em.getTransaction().commit();
-      
-        }catch(Exception e){
+
+        } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
-        }
-        finally{
+        } finally {
             em.close();
         }
     }
@@ -71,7 +83,7 @@ public class UsuarioJpaController implements Serializable {
             em.getTransaction().commit();
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
-        }finally{
+        } finally {
             em.close();
         }
     }
@@ -85,7 +97,6 @@ public class UsuarioJpaController implements Serializable {
     }
 
     private List<Usuario> findUsuarioEntities(boolean all, int maxResults, int firstResult) {
-        
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Usuario.class));
@@ -106,8 +117,6 @@ public class UsuarioJpaController implements Serializable {
         } finally {
             em.close();
         }
-        
-        
     }
 
     public int getUsuarioCount() {
@@ -121,5 +130,5 @@ public class UsuarioJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

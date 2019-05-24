@@ -9,21 +9,22 @@ import com.mycompany.controller.SeguridadJpaController;
 import com.mycompany.entidades.Seguridad;
 import com.mycompany.interfaz.SeguridadBeanLocal;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 
 /**
- *@author HTTP
+ * @author HTTP
  */
 @Stateless
 public class SeguridadBean implements SeguridadBeanLocal {
-    
-    
+
     @Override
     public int validarToken(String token) {
         SeguridadJpaController dao = new SeguridadJpaController();
         List<Seguridad> lista = dao.findSeguridadEntities();
         for (Seguridad lista1 : lista) {
-            if(lista1.getToken().equals(token)){
+            if (lista1.getToken().equals(token)) {
                 return lista1.getUser();
             }
         }
@@ -32,9 +33,18 @@ public class SeguridadBean implements SeguridadBeanLocal {
 
     @Override
     public void agregarToken(String token, int user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            SeguridadJpaController dao = new SeguridadJpaController();
+            Seguridad seg = new Seguridad();
+            seg.setToken(token);
+            seg.setUser(user);
+            
+            dao.create(seg);
+            System.out.println("no ingreso");
+        } catch (Exception e) {
+            System.out.println("error" + e.getMessage());
+        }
+
     }
 
-    
-    
 }

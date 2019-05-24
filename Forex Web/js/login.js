@@ -6,7 +6,8 @@ $('#fomulario').submit(function(evento) {
         type: 'GET',
         contentType: "application/json",
         success:function(data,textstatus,jQxhr){
-            alert(data.respuesta),
+            alert(data.respuesta);
+            document.cookie = data.token
             window.location = "u_home.html"
         },
         error: function(data){

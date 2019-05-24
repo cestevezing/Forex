@@ -14,7 +14,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface UsuarioBeanLocal {
-    public boolean login(String username,String pass);
+    public int login(String username,String pass);
     public void actualizar(UsuarioP user );
     public boolean validaUserName(String username,int id);
     public void registrar(UsuarioP user);

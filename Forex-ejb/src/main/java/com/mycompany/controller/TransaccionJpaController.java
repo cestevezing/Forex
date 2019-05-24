@@ -5,15 +5,21 @@
  */
 package com.mycompany.controller;
 
-
+import com.mycompany.controller.exceptions.NonexistentEntityException;
+import com.mycompany.controller.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import javax.persistence.Query;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import com.mycompany.entidades.Usuario;
+import com.mycompany.entidades.Divisa;
 import com.mycompany.entidades.Transaccion;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.transaction.UserTransaction;
 
 /**
  *
@@ -21,19 +27,14 @@ import javax.persistence.Persistence;
  */
 public class TransaccionJpaController implements Serializable {
 
-    
     public TransaccionJpaController() {
-        
+        this.utx = utx;
         this.em = Persistence.createEntityManagerFactory("com.mycompany_Forex-ejb_ejb_1.0-SNAPSHOTPU").createEntityManager();
     }
-    
+    private UserTransaction utx = null;
     private EntityManager em = null;
 
-    public EntityManager getEntityManager() {
-        return em;
-    }
-
-    public void create(Transaccion transaccion)  {
+    public void create(Transaccion transaccion) {
         try {
             em.getTransaction().begin();
             em.persist(transaccion);
@@ -51,16 +52,15 @@ public class TransaccionJpaController implements Serializable {
             Transaccion tra = em.find(Transaccion.class, transaccion.getId());
             tra.setActual(transaccion.getActual());
             em.getTransaction().commit();
-      
-        }catch(Exception e){
+
+        } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
-        }
-        finally{
+        } finally {
             em.close();
         }
     }
 
-    public void destroy(Integer id)  {
+    public void destroy(Integer id) {
         try {
             em.getTransaction().begin();
             Transaccion tran = em.find(Transaccion.class, id);
@@ -68,7 +68,7 @@ public class TransaccionJpaController implements Serializable {
             em.getTransaction().commit();
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
-        }finally{
+        } finally {
             em.close();
         }
     }
@@ -96,7 +96,7 @@ public class TransaccionJpaController implements Serializable {
         }
     }
 
-    public Transaccion findTransaccion(Integer id) {
+    public Transaccion findTransaccion(Integer id) {        
         try {
             return em.find(Transaccion.class, id);
         } finally {
@@ -115,5 +115,5 @@ public class TransaccionJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }
