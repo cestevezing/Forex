@@ -6,7 +6,6 @@
     <class>com.mycompany.entidades.Historial</class>
     <class>com.mycompany.entidades.Transaccion</class>
     <class>com.mycompany.entidades.Usuario</class>
-   
     <properties>
       <!-- Configuring The Database Connection Details -->
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
