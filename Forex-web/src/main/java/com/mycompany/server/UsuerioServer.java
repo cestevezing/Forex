@@ -52,10 +52,9 @@ public class UsuerioServer {
             String token = issueToken(usuar);
             System.out.println("esto es =" + token);
             System.out.println(id);
-            
+
             seg.agregarToken("hola", id);
-                    
-            
+
             rest = Json.createObjectBuilder().add("respuesta", "Ingreso").add("token", "prueba").build();
             return Response.status(Response.Status.OK).entity(rest).build();
         } else {
@@ -93,7 +92,7 @@ public class UsuerioServer {
 
     }
 
-    private String issueToken(String login){
+    private String issueToken(String login) {
         //Calculamos la fecha de expiración del token
         Date issueDate = new Date();
         Calendar calendar = Calendar.getInstance();
@@ -103,10 +102,10 @@ public class UsuerioServer {
 
         //Creamos el token
         String token = Jwts.builder().setSubject(login)
-                .setExpiration(new Date(2019,6,15)).setIssuer("nat@gmail.com")
-                .claim("groups", new String[] {"user","nat"})
-                .signWith(SignatureAlgorithm.HS512,"1234567").compact();
+                .setExpiration(new Date(2019, 6, 15)).setIssuer("nat@gmail.com")
+                .claim("groups", new String[]{"user", "nat"})
+                .signWith(SignatureAlgorithm.HS512, "1234567").compact();
         return token;
-        
+
     }
 }
