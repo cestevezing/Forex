@@ -9,8 +9,6 @@ import com.mycompany.controller.SeguridadJpaController;
 import com.mycompany.entidades.Seguridad;
 import com.mycompany.interfaz.SeguridadBeanLocal;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.Stateless;
 
 /**
@@ -38,7 +36,7 @@ public class SeguridadBean implements SeguridadBeanLocal {
             Seguridad seg = new Seguridad();
             seg.setToken(token);
             seg.setUser(user);
-            
+
             dao.create(seg);
             System.out.println("no ingreso");
         } catch (Exception e) {

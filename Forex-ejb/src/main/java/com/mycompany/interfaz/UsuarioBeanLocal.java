@@ -18,6 +18,7 @@ public interface UsuarioBeanLocal {
     public void actualizar(UsuarioP user );
     public boolean validaUserName(String username,int id);
     public void registrar(UsuarioP user);
-    public UsuarioP perfil(int ip);
+    public UsuarioP perfil(int id);
+    public double inversion(int id);
     
 }

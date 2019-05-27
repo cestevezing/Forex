@@ -5,14 +5,18 @@
  */
 package com.mycompany.controller;
 
+import com.mycompany.controller.exceptions.NonexistentEntityException;
+import com.mycompany.controller.exceptions.RollbackFailureException;
 import com.mycompany.entidades.Seguridad;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.transaction.UserTransaction;
 
 /**
  *
@@ -21,16 +25,17 @@ import javax.persistence.criteria.Root;
 public class SeguridadJpaController implements Serializable {
 
     public SeguridadJpaController() {
+        this.utx = utx;
         this.em = Persistence.createEntityManagerFactory("com.mycompany_Forex-ejb_ejb_1.0-SNAPSHOTPU").createEntityManager();
     }
-    
+    private UserTransaction utx = null;
     private EntityManager em = null;
 
     public EntityManager getEntityManager() {
         return em;
     }
 
-    public void create(Seguridad seguridad)  {
+    public void create(Seguridad seguridad) {
         try {
             em.getTransaction().begin();
             em.persist(seguridad);
@@ -38,11 +43,13 @@ public class SeguridadJpaController implements Serializable {
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
-    public void edit(Seguridad seguridad)  {
+    public void edit(Seguridad seguridad) {
         try {
             em.getTransaction().begin();
             Seguridad seg = em.find(Seguridad.class, seguridad.getId());
@@ -55,20 +62,37 @@ public class SeguridadJpaController implements Serializable {
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
-    public void destroy(Integer id) {
+    public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
+        
         try {
-            em.getTransaction().begin();
-            Seguridad seg = em.find(Seguridad.class, id);
-            em.remove(seg);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            utx.begin();
+            em = getEntityManager();
+            Seguridad seguridad;
+            try {
+                seguridad = em.getReference(Seguridad.class, id);
+                seguridad.getId();
+            } catch (EntityNotFoundException enfe) {
+                throw new NonexistentEntityException("The seguridad with id " + id + " no longer exists.", enfe);
+            }
+            em.remove(seguridad);
+            utx.commit();
+        } catch (Exception ex) {
+            try {
+                utx.rollback();
+            } catch (Exception re) {
+                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
+            }
+            throw ex;
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
@@ -91,7 +115,9 @@ public class SeguridadJpaController implements Serializable {
             }
             return q.getResultList();
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
@@ -99,11 +125,14 @@ public class SeguridadJpaController implements Serializable {
         try {
             return em.find(Seguridad.class, id);
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
     public int getSeguridadCount() {
+        EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Seguridad> rt = cq.from(Seguridad.class);
@@ -111,7 +140,9 @@ public class SeguridadJpaController implements Serializable {
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 

@@ -5,6 +5,8 @@
  */
 package com.mycompany.interfaz;
 
+import com.mycompany.pojo.TransaccionP;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -13,7 +15,8 @@ import javax.ejb.Local;
  */
 @Local
 public interface TransaccionBeanLocal {
-    public void listarTrans();
-    public void comprar();
+    public List<TransaccionP> listarTrans(int userId);
+    public void actualizar();
+    public void comprar(TransaccionP trans);
     public void vender();
 }

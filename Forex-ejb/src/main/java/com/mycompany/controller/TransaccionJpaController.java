@@ -5,19 +5,13 @@
  */
 package com.mycompany.controller;
 
-import com.mycompany.controller.exceptions.NonexistentEntityException;
-import com.mycompany.controller.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.mycompany.entidades.Usuario;
-import com.mycompany.entidades.Divisa;
 import com.mycompany.entidades.Transaccion;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.transaction.UserTransaction;
 
@@ -31,8 +25,8 @@ public class TransaccionJpaController implements Serializable {
         this.utx = utx;
         this.em = Persistence.createEntityManagerFactory("com.mycompany_Forex-ejb_ejb_1.0-SNAPSHOTPU").createEntityManager();
     }
-    private UserTransaction utx = null;
-    private EntityManager em = null;
+    private UserTransaction utx;
+    public EntityManager em ;
 
     public void create(Transaccion transaccion) {
         try {
@@ -42,7 +36,7 @@ public class TransaccionJpaController implements Serializable {
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         } finally {
-            em.close();
+            //em.close();
         }
     }
 
@@ -56,7 +50,9 @@ public class TransaccionJpaController implements Serializable {
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         } finally {
-            em.close();
+            if (em != null) {
+                //em.close();
+            }
         }
     }
 
@@ -69,7 +65,10 @@ public class TransaccionJpaController implements Serializable {
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         } finally {
-            em.close();
+            if(em != null){
+                em.close();
+            }
+            
         }
     }
 
@@ -92,7 +91,9 @@ public class TransaccionJpaController implements Serializable {
             }
             return q.getResultList();
         } finally {
-            em.close();
+            if(em != null){
+                //em.close();
+            }
         }
     }
 
@@ -100,7 +101,9 @@ public class TransaccionJpaController implements Serializable {
         try {
             return em.find(Transaccion.class, id);
         } finally {
-            em.close();
+            if(em != null){
+                em.close();
+            }
         }
     }
 
@@ -112,7 +115,9 @@ public class TransaccionJpaController implements Serializable {
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
         } finally {
-            em.close();
+            if(em != null){
+                em.close();
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,44 +9,132 @@
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/stiles.css">
 </head>
-<body>
-        <nav class="navbar navbar-expand-lg navbar-light">
-            <div class="container">
-                <a class="navbar-brand text-light" href="#">FOREX</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item ">
-                          <a class="nav-link" href="u_home.html">Home <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="u_transactions.html">Transactions</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="u_record.html">Record</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="u_profile.html">Profile</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="index.html">Sign off</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>    
-        </nav> 
 
-        <div class="container text-light text-center py-5">
-                <h1>Transacciones</h1>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand text-light" href="#">FOREX</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item ">
+                        <a class="nav-link" href="u_home.html">Inicio <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="u_transactions.html">Transacciones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="u_record.html">Historial</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="u_profile.html">Perfil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Cerrar sesion</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-        
-        
+    </nav>
+
+    <div class="container py-3  " style="width: 50%">
+
+
+
+    </div>
+
+    </div>
+    <div class="container text-light ">
+        <h1 class="text-center">Transacciones</h1>
+    </div>
+
+
+    <div class="container " style="width: 50%">
+        <div class=" form-row py-2">
+
+            <button type="button" class="btn btn-dark col-3 mr-5" data-toggle="modal" data-target="#exampleModal"
+                data-whatever="@mdo"> <b>+</b> agregar</button>
+            <div class="modal fade " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Nueva Transaccion</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="inputGroupSelect01">Options</label>
+                                    </div>
+                                    <select class="custom-select" id="divisa">
+                                        <option selected>Choose...</option>
+                                        <option value="1">EUR/USD</option>
+                                        <option value="2">GBP/USD</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="valor" class="col-form-label text-dark">Valor Pip:</label>
+                                    <input type="number" step="any" class="form-control " id="valor">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary " data-dismiss="modal">cerrar</button>
+                            <button type="button" class="btn btn-primary" onclick="comprar()">Comprar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-inline col text-light ml-5">
+
+                <label for="ganancias" class="mr-2">Ganancias: </label>
+                <input type="text" class="form-control mr-2 transparent-input " step="5" style="width: 25%" id="ganancias"
+                    disabled="true">
+
+
+                <label for="inversion" class="mr-2">Inversion:</label>
+                <input type="text" class="form-control mr-2 transparent-input" style="width: 25%" id="inversion"
+                    disabled="true">
+
+            </div>
+        </div>
+
+        <table class="table table-dark ">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Divisa</th>
+                    <th scope="col">Base</th>
+                    <th scope="col">Actual</th>
+                    <th scope="col">Valor PIP</th>
+                    <th scope="col">Total</th>
+                    <th scope="col"></th>
+
+
+                </tr>
+            </thead>
+            <tbody id="rest">
+
+            </tbody>
+        </table>
+
+        <label id="mensaje" class="text-light"></label>
+    </div>
+
+
     <script src="../js/Boot/jquery-3.4.1.min.js"></script>
     <script src="../js/Boot/bootstrap.bundle.js"></script>
     <script src="../js/Boot/bootstrap.min.js"></script>
-    
+    <script src="../js/transaccion.js"></script>
+
 
 </body>
+
 </html>

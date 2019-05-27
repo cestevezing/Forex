@@ -34,8 +34,8 @@ public class UsuarioJpaController implements Serializable {
         this.utx = utx;
         this.em = Persistence.createEntityManagerFactory("com.mycompany_Forex-ejb_ejb_1.0-SNAPSHOTPU").createEntityManager();
     }
-    private UserTransaction utx = null;
-    private EntityManager em = null;
+    private UserTransaction utx;
+    private EntityManager em;
 
     public EntityManager getEntityManager() {
         return em;
@@ -71,7 +71,9 @@ public class UsuarioJpaController implements Serializable {
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
@@ -84,7 +86,9 @@ public class UsuarioJpaController implements Serializable {
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
@@ -107,7 +111,9 @@ public class UsuarioJpaController implements Serializable {
             }
             return q.getResultList();
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
@@ -115,7 +121,9 @@ public class UsuarioJpaController implements Serializable {
         try {
             return em.find(Usuario.class, id);
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
@@ -127,7 +135,9 @@ public class UsuarioJpaController implements Serializable {
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
     }
 

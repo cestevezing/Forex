@@ -10,11 +10,8 @@ import com.mycompany.interfaz.UsuarioBeanLocal;
 import com.mycompany.pojo.UsuarioP;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.json.Json;
@@ -40,7 +37,7 @@ public class UsuerioServer {
 
     @EJB
     private UsuarioBeanLocal user;
-    private SeguridadBeanLocal seg;
+    private SeguridadBeanLocal seguridad;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -52,9 +49,10 @@ public class UsuerioServer {
             String token = issueToken(usuar);
             System.out.println("esto es =" + token);
             System.out.println(id);
-
-            seg.agregarToken("hola", id);
-
+            
+            //seguridad.agregarToken("hola", id);
+                    
+            
             rest = Json.createObjectBuilder().add("respuesta", "Ingreso").add("token", "prueba").build();
             return Response.status(Response.Status.OK).entity(rest).build();
         } else {
@@ -83,16 +81,46 @@ public class UsuerioServer {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("perfil")
-    public Response perfil(ContainerRequestContext requestContext) {
-        String token = requestContext.getHeaderString("token-auto");
+    public Response perfil(@HeaderParam("token-auto") String token) {
+        //String token = requestContext.getHeaderString("token-auto");
         System.out.println(token);
-        int id = seg.validarToken(token);
+        //int id = seguridad.validarToken(token);
+        int id = 1;
         UsuarioP resul = user.perfil(id);
         return Response.status(Response.Status.OK).entity(resul).build();
 
+        
+    }
+    
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("save")
+    public Response actualizarPerfil(UsuarioP usuar ) {
+        
+        user.actualizar(usuar);        
+        JsonObject resul  = Json.createObjectBuilder().add("respuesta", "Se actualizo con exito").build();
+          
+        return Response.status(Response.Status.OK).entity(resul).build();
     }
 
-    private String issueToken(String login) {
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("inversion")
+    public Response inversion( @HeaderParam("token-auto") String token) {
+        
+        System.out.println("inversion "+ token);
+        //int id = seguridad.validarToken(token);
+        int id = 1;
+        double inversion = user.inversion(id);
+        System.out.println("Inversion: "+inversion);
+        JsonObject resul  = Json.createObjectBuilder().add("respuesta",""+inversion).build();
+        return Response.status(Response.Status.OK).entity(resul).build();
+    }
+    
+    
+    private String issueToken(String login){
         //Calculamos la fecha de expiración del token
         Date issueDate = new Date();
         Calendar calendar = Calendar.getInstance();
@@ -102,10 +130,10 @@ public class UsuerioServer {
 
         //Creamos el token
         String token = Jwts.builder().setSubject(login)
-                .setExpiration(new Date(2019, 6, 15)).setIssuer("nat@gmail.com")
-                .claim("groups", new String[]{"user", "nat"})
-                .signWith(SignatureAlgorithm.HS512, "1234567").compact();
+                .setExpiration(new Date(2019,6,15)).setIssuer("nat@gmail.com")
+                .claim("groups", new String[] {"user","nat"})
+                .signWith(SignatureAlgorithm.HS512,"1234567").compact();
         return token;
-
+        
     }
 }

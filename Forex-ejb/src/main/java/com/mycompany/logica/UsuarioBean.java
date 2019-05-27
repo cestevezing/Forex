@@ -72,5 +72,13 @@ public class UsuarioBean implements UsuarioBeanLocal {
         return new UsuarioP(resul.getId(),resul.getName(), resul.getNameUser(), resul.getEmail(), resul.getPassword(), resul.getOutlay(), resul.getEarnings());
     }
 
+    @Override
+    public double inversion(int id) {
+        UsuarioJpaController dao = new UsuarioJpaController();
+        Usuario resul = dao.findUsuario(id);
+        return resul.getOutlay();
+        
+    }
+
     
 }

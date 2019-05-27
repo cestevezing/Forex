@@ -17,6 +17,7 @@ import com.mycompany.entidades.Historial;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.transaction.UserTransaction;
 
 /**
@@ -25,121 +26,48 @@ import javax.transaction.UserTransaction;
  */
 public class HistorialJpaController implements Serializable {
 
-    public HistorialJpaController(UserTransaction utx, EntityManagerFactory emf) {
+    public HistorialJpaController() {
         this.utx = utx;
-        this.emf = emf;
+        this.em = Persistence.createEntityManagerFactory("com.mycompany_Forex-ejb_ejb_1.0-SNAPSHOTPU").createEntityManager();
     }
     private UserTransaction utx = null;
-    private EntityManagerFactory emf = null;
+    private EntityManager em = null;
 
     public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+        return em;
     }
 
-    public void create(Historial historial) throws RollbackFailureException, Exception {
-        EntityManager em = null;
+    public void create(Historial historial){
         try {
-            utx.begin();
-            em = getEntityManager();
-            Divisa divisaId = historial.getDivisaId();
-            if (divisaId != null) {
-                divisaId = em.getReference(divisaId.getClass(), divisaId.getId());
-                historial.setDivisaId(divisaId);
-            }
+            em.getTransaction().begin();
             em.persist(historial);
-            if (divisaId != null) {
-                divisaId.getHistorialList().add(historial);
-                divisaId = em.merge(divisaId);
-            }
-            utx.commit();
-        } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            throw ex;
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
         } finally {
-            if (em != null) {
-                em.close();
-            }
+            em.close();
         }
     }
 
-    public void edit(Historial historial) throws NonexistentEntityException, RollbackFailureException, Exception {
-        EntityManager em = null;
+    public void edit(Historial historial){
         try {
-            utx.begin();
-            em = getEntityManager();
-            Historial persistentHistorial = em.find(Historial.class, historial.getId());
-            Divisa divisaIdOld = persistentHistorial.getDivisaId();
-            Divisa divisaIdNew = historial.getDivisaId();
-            if (divisaIdNew != null) {
-                divisaIdNew = em.getReference(divisaIdNew.getClass(), divisaIdNew.getId());
-                historial.setDivisaId(divisaIdNew);
-            }
-            historial = em.merge(historial);
-            if (divisaIdOld != null && !divisaIdOld.equals(divisaIdNew)) {
-                divisaIdOld.getHistorialList().remove(historial);
-                divisaIdOld = em.merge(divisaIdOld);
-            }
-            if (divisaIdNew != null && !divisaIdNew.equals(divisaIdOld)) {
-                divisaIdNew.getHistorialList().add(historial);
-                divisaIdNew = em.merge(divisaIdNew);
-            }
-            utx.commit();
-        } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            String msg = ex.getLocalizedMessage();
-            if (msg == null || msg.length() == 0) {
-                Integer id = historial.getId();
-                if (findHistorial(id) == null) {
-                    throw new NonexistentEntityException("The historial with id " + id + " no longer exists.");
-                }
-            }
-            throw ex;
+            em.getTransaction().begin();
+            Historial his = em.find(Historial.class, historial.getId());
+            his.setDivisaId(historial.getDivisaId());
+            his.setValor(historial.getValor());
+            em.getTransaction().commit();
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
         } finally {
-            if (em != null) {
-                em.close();
-            }
+
+            em.close();
+
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
-        EntityManager em = null;
-        try {
-            utx.begin();
-            em = getEntityManager();
-            Historial historial;
-            try {
-                historial = em.getReference(Historial.class, id);
-                historial.getId();
-            } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The historial with id " + id + " no longer exists.", enfe);
-            }
-            Divisa divisaId = historial.getDivisaId();
-            if (divisaId != null) {
-                divisaId.getHistorialList().remove(historial);
-                divisaId = em.merge(divisaId);
-            }
-            em.remove(historial);
-            utx.commit();
-        } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+    public void destroy(Integer id){
+        
     }
 
     public List<Historial> findHistorialEntities() {
@@ -151,7 +79,7 @@ public class HistorialJpaController implements Serializable {
     }
 
     private List<Historial> findHistorialEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+        
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Historial.class));
@@ -167,7 +95,6 @@ public class HistorialJpaController implements Serializable {
     }
 
     public Historial findHistorial(Integer id) {
-        EntityManager em = getEntityManager();
         try {
             return em.find(Historial.class, id);
         } finally {
@@ -176,7 +103,6 @@ public class HistorialJpaController implements Serializable {
     }
 
     public int getHistorialCount() {
-        EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Historial> rt = cq.from(Historial.class);
