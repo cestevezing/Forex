@@ -5,22 +5,14 @@
  */
 package com.mycompany.controller;
 
-import com.mycompany.controller.exceptions.IllegalOrphanException;
-import com.mycompany.controller.exceptions.NonexistentEntityException;
-import com.mycompany.controller.exceptions.PreexistingEntityException;
-import com.mycompany.controller.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.mycompany.entidades.Transaccion;
 import com.mycompany.entidades.Usuario;
 import com.mycompany.pojo.UsuarioP;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.transaction.UserTransaction;
 
@@ -35,7 +27,7 @@ public class UsuarioJpaController implements Serializable {
         this.em = Persistence.createEntityManagerFactory("com.mycompany_Forex-ejb_ejb_1.0-SNAPSHOTPU").createEntityManager();
     }
     private UserTransaction utx;
-    private EntityManager em;
+    public EntityManager em;
 
     public EntityManager getEntityManager() {
         return em;
@@ -52,7 +44,7 @@ public class UsuarioJpaController implements Serializable {
             throw ex;
         } finally {
             if (em != null) {
-                em.close();
+                //em.close();
             }
         }
     }
@@ -65,6 +57,7 @@ public class UsuarioJpaController implements Serializable {
             user.setName(usuario.getName());
             user.setPassword(usuario.getPassword());
             user.setEmail(usuario.getEmail());
+            user.setOutlay(usuario.getOutlay());
 
             em.getTransaction().commit();
 
@@ -72,7 +65,7 @@ public class UsuarioJpaController implements Serializable {
             System.out.println("Error: " + e.getMessage());
         } finally {
             if (em != null) {
-                em.close();
+                //em.close();
             }
         }
     }
@@ -87,7 +80,7 @@ public class UsuarioJpaController implements Serializable {
             System.out.println("Error: " + e.getMessage());
         } finally {
             if (em != null) {
-                em.close();
+                //em.close();
             }
         }
     }
@@ -112,7 +105,7 @@ public class UsuarioJpaController implements Serializable {
             return q.getResultList();
         } finally {
             if (em != null) {
-                em.close();
+                //em.close();
             }
         }
     }
@@ -122,7 +115,7 @@ public class UsuarioJpaController implements Serializable {
             return em.find(Usuario.class, id);
         } finally {
             if (em != null) {
-                em.close();
+                //em.close();
             }
         }
     }
@@ -136,7 +129,7 @@ public class UsuarioJpaController implements Serializable {
             return ((Long) q.getSingleResult()).intValue();
         } finally {
             if (em != null) {
-                em.close();
+                //em.close();
             }
         }
     }

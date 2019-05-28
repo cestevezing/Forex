@@ -66,7 +66,7 @@ public class TransaccionJpaController implements Serializable {
             System.out.println("Error: " + e.getMessage());
         } finally {
             if(em != null){
-                em.close();
+                //em.close();
             }
             
         }
@@ -102,7 +102,7 @@ public class TransaccionJpaController implements Serializable {
             return em.find(Transaccion.class, id);
         } finally {
             if(em != null){
-                em.close();
+                //em.close();
             }
         }
     }
@@ -116,7 +116,7 @@ public class TransaccionJpaController implements Serializable {
             return ((Long) q.getSingleResult()).intValue();
         } finally {
             if(em != null){
-                em.close();
+                //em.close();
             }
         }
     }

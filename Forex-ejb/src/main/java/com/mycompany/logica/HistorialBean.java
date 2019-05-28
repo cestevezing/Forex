@@ -14,6 +14,10 @@ import javax.ejb.Stateless;
 @Stateless
 public class HistorialBean implements HistorialBeanLocal {
 
+    public HistorialBean() {
+    }
+
+       
     @Override
     public void agregar() {
     }

@@ -30,9 +30,11 @@ public class UsuarioBean implements UsuarioBeanLocal {
         
         for (Usuario lista1 : lista) {
             if (lista1.getNameUser().equals(username) && lista1.getPassword().equals(pass)) {
+                dao.em.close();
                 return lista1.getId();
             }            
         }
+        dao.em.close();
         return -1;
     }
 
@@ -41,7 +43,7 @@ public class UsuarioBean implements UsuarioBeanLocal {
         
         UsuarioJpaController dao = new UsuarioJpaController();
         dao.edit(user);
-        
+        dao.em.close();
     }
 
     @Override
@@ -51,9 +53,11 @@ public class UsuarioBean implements UsuarioBeanLocal {
         
         for (Usuario lista1 : lista) {
             if (lista1.getNameUser().equals(username) || lista1.getId() == (id) ) {
+                dao.em.close();
                 return true;
             }            
         }
+        dao.em.close();
         return false;
     }
 
@@ -62,13 +66,14 @@ public class UsuarioBean implements UsuarioBeanLocal {
         UsuarioJpaController dao = new UsuarioJpaController();
         Usuario nuevo = new Usuario(user.getId(), user.getName(), user.getNameUser(), user.getEmail(), user.getPassword());
         dao.create(nuevo);
-        
+        dao.em.close();
     }
 
     @Override
     public UsuarioP perfil(int id) {
         UsuarioJpaController dao = new UsuarioJpaController();
         Usuario resul = dao.findUsuario(id);
+        dao.em.close();
         return new UsuarioP(resul.getId(),resul.getName(), resul.getNameUser(), resul.getEmail(), resul.getPassword(), resul.getOutlay(), resul.getEarnings());
     }
 
@@ -76,6 +81,7 @@ public class UsuarioBean implements UsuarioBeanLocal {
     public double inversion(int id) {
         UsuarioJpaController dao = new UsuarioJpaController();
         Usuario resul = dao.findUsuario(id);
+        dao.em.close();
         return resul.getOutlay();
         
     }

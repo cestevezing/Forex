@@ -15,6 +15,10 @@ import javax.ejb.Stateless;
 @Stateless
 public class DivisaBean implements DivisaBeanLocal {
 
+    public DivisaBean() {
+    }
+
+    
     @Override
     public void actualizaValor() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

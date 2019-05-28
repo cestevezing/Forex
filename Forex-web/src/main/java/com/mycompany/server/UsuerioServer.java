@@ -47,12 +47,8 @@ public class UsuerioServer {
         int id = user.login(usuar, pass);
         if (id > 0) {
             String token = issueToken(usuar);
-            System.out.println("esto es =" + token);
-            System.out.println(id);
-            
             //seguridad.agregarToken("hola", id);
                     
-            
             rest = Json.createObjectBuilder().add("respuesta", "Ingreso").add("token", "prueba").build();
             return Response.status(Response.Status.OK).entity(rest).build();
         } else {
@@ -109,12 +105,10 @@ public class UsuerioServer {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("inversion")
     public Response inversion( @HeaderParam("token-auto") String token) {
-        
-        System.out.println("inversion "+ token);
         //int id = seguridad.validarToken(token);
         int id = 1;
         double inversion = user.inversion(id);
-        System.out.println("Inversion: "+inversion);
+        
         JsonObject resul  = Json.createObjectBuilder().add("respuesta",""+inversion).build();
         return Response.status(Response.Status.OK).entity(resul).build();
     }

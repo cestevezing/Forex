@@ -29,7 +29,7 @@ public class SeguridadJpaController implements Serializable {
         this.em = Persistence.createEntityManagerFactory("com.mycompany_Forex-ejb_ejb_1.0-SNAPSHOTPU").createEntityManager();
     }
     private UserTransaction utx = null;
-    private EntityManager em = null;
+    public EntityManager em = null;
 
     public EntityManager getEntityManager() {
         return em;
@@ -44,7 +44,7 @@ public class SeguridadJpaController implements Serializable {
             System.out.println("Error: " + e.getMessage());
         } finally {
             if (em != null) {
-                em.close();
+                //em.close();
             }
         }
     }
@@ -63,7 +63,7 @@ public class SeguridadJpaController implements Serializable {
             System.out.println("Error: " + e.getMessage());
         } finally {
             if (em != null) {
-                em.close();
+                //em.close();
             }
         }
     }
@@ -91,7 +91,7 @@ public class SeguridadJpaController implements Serializable {
             throw ex;
         } finally {
             if (em != null) {
-                em.close();
+                //em.close();
             }
         }
     }
@@ -116,7 +116,7 @@ public class SeguridadJpaController implements Serializable {
             return q.getResultList();
         } finally {
             if (em != null) {
-                em.close();
+                //em.close();
             }
         }
     }
@@ -126,7 +126,7 @@ public class SeguridadJpaController implements Serializable {
             return em.find(Seguridad.class, id);
         } finally {
             if (em != null) {
-                em.close();
+                //em.close();
             }
         }
     }
@@ -141,7 +141,7 @@ public class SeguridadJpaController implements Serializable {
             return ((Long) q.getSingleResult()).intValue();
         } finally {
             if (em != null) {
-                em.close();
+                //em.close();
             }
         }
     }

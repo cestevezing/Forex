@@ -142,7 +142,7 @@ public class DivisaJpaController implements Serializable {
             return em.find(Divisa.class, id);
         } finally {
             if (em != null) {
-                em.close();
+                //em.close();
             }
         }
     }
@@ -156,7 +156,7 @@ public class DivisaJpaController implements Serializable {
             return ((Long) q.getSingleResult()).intValue();
         } finally {
             if (em != null) {
-                em.close();
+                //em.close();
             }
         }
     }

@@ -26,7 +26,7 @@ import javax.ws.rs.ext.Provider;
 public class Seguridad implements ContainerRequestFilter {
 
     @EJB
-    SeguridadBeanLocal seguridad;
+    private SeguridadBeanLocal seguridad;
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {

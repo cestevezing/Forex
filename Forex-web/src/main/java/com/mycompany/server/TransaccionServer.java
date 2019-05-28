@@ -14,9 +14,11 @@ import javax.enterprise.context.RequestScoped;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.MediaType;
@@ -37,7 +39,7 @@ public class TransaccionServer {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("comprar")
-    public Response comprar(@HeaderParam("token-auto") String token,TransaccionP nuevo) {
+    public Response comprar(@HeaderParam("token-auto") String token, TransaccionP nuevo) {
         //String token = requestContext.getHeaderString("token-auto");
         System.out.println(token);
         //int id = seguridad.validarToken(token);
@@ -56,12 +58,12 @@ public class TransaccionServer {
     @Path("actualizar")
     public Response listarTransaccion(ContainerRequestContext requestContext) {
         String token = requestContext.getHeaderString("token-auto");
-        System.out.println("Actualizar:"+token);
+        System.out.println("Actualizar:" + token);
         //int id = seguridad.validarToken(token);
         int id = 1;
-        
+
         trans.actualizar();
-        
+
         System.out.println("paso--");
         List<TransaccionP> datos = trans.listarTrans(id);
         if (datos.size() > 0) {
@@ -72,6 +74,17 @@ public class TransaccionServer {
         }
 
     }
-    
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/venta/{id}")
+    public Response vender(@HeaderParam("token-auto") String token, @PathParam("id") int id) {
+
+        trans.vender(id);
+        JsonObject rest = Json.createObjectBuilder().add("respuesta", "Venta con exito").build();
+        return Response.status(Response.Status.OK).entity(rest).build();
+
+    }
 
 }

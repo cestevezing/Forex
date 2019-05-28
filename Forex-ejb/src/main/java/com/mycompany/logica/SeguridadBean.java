@@ -17,22 +17,29 @@ import javax.ejb.Stateless;
 @Stateless
 public class SeguridadBean implements SeguridadBeanLocal {
 
+    public SeguridadBean() {
+    }
+
+       
     @Override
     public int validarToken(String token) {
         SeguridadJpaController dao = new SeguridadJpaController();
         List<Seguridad> lista = dao.findSeguridadEntities();
         for (Seguridad lista1 : lista) {
             if (lista1.getToken().equals(token)) {
+                dao.em.close();
                 return lista1.getUser();
             }
         }
+        dao.em.close();
         return -1;
     }
 
     @Override
     public void agregarToken(String token, int user) {
+        SeguridadJpaController dao = new SeguridadJpaController();
         try {
-            SeguridadJpaController dao = new SeguridadJpaController();
+            
             Seguridad seg = new Seguridad();
             seg.setToken(token);
             seg.setUser(user);
@@ -40,8 +47,10 @@ public class SeguridadBean implements SeguridadBeanLocal {
             dao.create(seg);
             System.out.println("no ingreso");
         } catch (Exception e) {
+            dao.em.close();
             System.out.println("error" + e.getMessage());
         }
+        dao.em.close();
 
     }
 

@@ -2,25 +2,8 @@ var total = 0
 var inver 
 
 $(document).ready(function () {
- 
-    $.ajax({
-        url: 'http://localhost:8080/Forex-web/api/usuario/inversion',
-        type: 'POST',
-        contentType: "application/json",
-        headers: {
-            'token-auto': document.cookie
-        },
-        success: function (data, textstatus, jQxhr) {
-            inver = data.respuesta
-            document.getElementById("inversion").value = inver
-        },
-        error: function (data, textstatus, jQxhr) {
-            alert("Error")
-        }
-
-    })
-
-
+        
+    inversion();
 
     var refreshId = setInterval(function () {
         $('#feedback-bg-info').load(
@@ -41,7 +24,7 @@ $(document).ready(function () {
                         
                             <tr>
                                 <th scope="row">${ valor.id}</th>
-                                <td>${ valor.divisaId = 1 ? "EUR/USD" : "GBP/USD"}</td>
+                                <td>${ valor.divisaId == 1 ? "EUR/USD" : "GBP/USD"}</td>
                                 <td>${ valor.base.toFixed(5)}</td>
                                 <td>${ valor.actual.toFixed(5)}</td>
                                 <td>${ valor.valuePip}</td>
@@ -57,6 +40,8 @@ $(document).ready(function () {
 
                 },
                 error: function (data, textstatus, jQxhr) {
+                    var contenido = document.querySelector('#rest')
+                    contenido.innerHTML = ''
                     document.getElementById("mensaje").textContent = data.responseJSON.respuesta
                 }
 
@@ -66,6 +51,25 @@ $(document).ready(function () {
 
 })
 
+function inversion(){
+    $.ajax({
+        url: 'http://localhost:8080/Forex-web/api/usuario/inversion',
+        type: 'POST',
+        contentType: "application/json",
+        headers: {
+            'token-auto': document.cookie
+        },
+        success: function (data, textstatus, jQxhr) {
+            inver = parseFloat(data.respuesta)
+            document.getElementById("inversion").value = inver.toFixed(2);
+        },
+        error: function (data, textstatus, jQxhr) {
+            alert("Error")
+        }
+
+    })
+}
+
 function gana(actual, base, pip) {
 
     total = total + ((actual - base) * pip)*100000
@@ -74,14 +78,15 @@ function gana(actual, base, pip) {
 
 function vender(id) {
     $.ajax({
-        url: 'http://localhost:8080/Forex-web/api/prueba/registro',
-        type: 'POST',
+        url: 'http://localhost:8080/Forex-web/api/transaccion/venta/'+id,
+        type: 'GET',
         contentType: "application/json",
         headers: {
             'token-auto': document.cookie
         },
         success: function (data, textstatus, jQxhr) {
-
+            inversion()
+            alert(data.respuesta)            
         },
         error: function (data, textstatus, jQxhr) {
             alert(data.responseJSON.respuesta)
@@ -103,7 +108,7 @@ function comprar() {
         data: JSON.stringify({
             id: 0,
             userId: 0,
-            divisaId: document.getElementById("divisa").value,
+            divisaId: document.getElementById("divisaSel").value,
             base: 0,
             actual: 0,
             state: false,

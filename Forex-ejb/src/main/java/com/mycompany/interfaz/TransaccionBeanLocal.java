@@ -18,5 +18,5 @@ public interface TransaccionBeanLocal {
     public List<TransaccionP> listarTrans(int userId);
     public void actualizar();
     public void comprar(TransaccionP trans);
-    public void vender();
+    public void vender(int id);
 }
