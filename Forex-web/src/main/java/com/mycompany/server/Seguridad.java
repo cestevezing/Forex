@@ -38,7 +38,6 @@ public class Seguridad implements ContainerRequestFilter {
             return;
         }
         String token = requestContext.getHeaderString("token-auto");
-        System.out.println(token);
         if (token == null) {
             JsonObject rest = Json.createObjectBuilder().add("respuesta", "Token requerido").build();
             requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity(rest).type(MediaType.APPLICATION_JSON).build());

@@ -5,11 +5,13 @@
  */
 package com.mycompany.pojo;
 
+import java.io.Serializable;
+
 /**
  *
  * @author HTTP
  */
-public class UsuarioP {
+public class UsuarioP implements Serializable {
 
     private int id;
     private String name;

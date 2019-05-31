@@ -24,15 +24,15 @@ public class UsuarioBean implements UsuarioBeanLocal {
 
     @Override
     public int login(String username, String pass) {
-        
+
         UsuarioJpaController dao = new UsuarioJpaController();
         List<Usuario> lista = dao.findUsuarioEntities();
-        
+
         for (Usuario lista1 : lista) {
             if (lista1.getNameUser().equals(username) && lista1.getPassword().equals(pass)) {
                 dao.em.close();
                 return lista1.getId();
-            }            
+            }
         }
         dao.em.close();
         return -1;
@@ -40,41 +40,53 @@ public class UsuarioBean implements UsuarioBeanLocal {
 
     @Override
     public void actualizar(UsuarioP user) {
-        
+
         UsuarioJpaController dao = new UsuarioJpaController();
         dao.edit(user);
         dao.em.close();
     }
 
     @Override
-    public boolean validaUserName(String username,int id) {
+    public boolean validaUserName(String username, int id) {
         UsuarioJpaController dao = new UsuarioJpaController();
         List<Usuario> lista = dao.findUsuarioEntities();
-        
+
         for (Usuario lista1 : lista) {
-            if (lista1.getNameUser().equals(username) || lista1.getId() == (id) ) {
+            if (lista1.getNameUser().equals(username) || lista1.getId() == (id)) {
                 dao.em.close();
                 return true;
-            }            
+            }
         }
         dao.em.close();
         return false;
     }
 
     @Override
-    public void registrar(UsuarioP user) {        
+    public void registrar(UsuarioP user) {
         UsuarioJpaController dao = new UsuarioJpaController();
         Usuario nuevo = new Usuario(user.getId(), user.getName(), user.getNameUser(), user.getEmail(), user.getPassword());
+        nuevo.setOutlay(user.getOutlay());
+        nuevo.setEarnings(0d);
         dao.create(nuevo);
         dao.em.close();
     }
 
     @Override
     public UsuarioP perfil(int id) {
+        int a = 0;
         UsuarioJpaController dao = new UsuarioJpaController();
         Usuario resul = dao.findUsuario(id);
+        UsuarioP usar = new UsuarioP();
+        usar.setId(resul.getId());
+        usar.setName(resul.getName());
+        usar.setNameUser(resul.getNameUser());
+        usar.setEmail(resul.getEmail());
+        usar.setPassword(resul.getPassword());
+        usar.setOutlay(resul.getOutlay());
+        usar.setEarnings(resul.getEarnings());
         dao.em.close();
-        return new UsuarioP(resul.getId(),resul.getName(), resul.getNameUser(), resul.getEmail(), resul.getPassword(), resul.getOutlay(), resul.getEarnings());
+
+        return usar;
     }
 
     @Override
@@ -83,8 +95,7 @@ public class UsuarioBean implements UsuarioBeanLocal {
         Usuario resul = dao.findUsuario(id);
         dao.em.close();
         return resul.getOutlay();
-        
+
     }
 
-    
 }

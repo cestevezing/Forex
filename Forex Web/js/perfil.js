@@ -13,6 +13,7 @@ $.ajax({
         document.getElementById("userName").value = data.nameUser;
         document.getElementById("userName").disabled = true;
         document.getElementById("password").value = data.password;
+        document.getElementById("outlay").value = data.outlay;
     },
     error: function (data) {
         alert(data.responseJSON.respuesta)
@@ -27,13 +28,16 @@ $('#formulario').submit(function (evento) {
         url: 'http://localhost:8080/Forex-web/api/usuario/save',
         type: 'POST',
         contentType: "application/json",
+        headers:{
+            'token-auto': document.cookie
+        },
         data: JSON.stringify({
             name: document.getElementById("name").value,
             id: document.getElementById("id").value,
             nameUser : document.getElementById("userName").value,
             email : document.getElementById("email").value,
             password : document.getElementById("password").value,
-            outlay : 0,
+            outlay : document.getElementById("outlay").value,
             earnings : 0
         }),
         success: function (data, textstatus, jQxhr) {

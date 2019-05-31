@@ -1,16 +1,35 @@
 var total = 0
-var inver 
+var inver
+var inicio = 0
+
+inversion();
 
 $(document).ready(function () {
-        
-    inversion();
 
     var refreshId = setInterval(function () {
+
+        if (inicio > 0) {
+            $.ajax({
+                url: 'http://localhost:8080/Forex-web/api/transaccion/actualizar',
+                type: 'POST',
+                contentType: "application/json",
+                headers: {
+                    'token-auto': document.cookie
+                },
+                success: function (data, textstatus, jQxhr) {
+                    console.log("bien")
+                },
+                error: function (data, textstatus, jQxhr) {
+                    console.log("mal")
+                }
+
+            })
+        }
+
         $('#feedback-bg-info').load(
             total = 0,
-        
-                $.ajax({
-                url: 'http://localhost:8080/Forex-web/api/transaccion/actualizar',
+            $.ajax({
+                url: 'http://localhost:8080/Forex-web/api/transaccion/listar',
                 type: 'POST',
                 contentType: "application/json",
                 headers: {
@@ -35,8 +54,12 @@ $(document).ready(function () {
                             `
                     }
                     var suma = parseFloat(inver) + parseFloat(total)
+                    if (suma < 0) {
+                        finalizar();
+                    }
                     document.getElementById("ganancias").value = suma.toFixed(2);
-                    document.getElementById("mensaje").textContent = ""
+                    document.getElementById("mensaje").textContent = "";
+                    inicio = 1
 
                 },
                 error: function (data, textstatus, jQxhr) {
@@ -51,7 +74,27 @@ $(document).ready(function () {
 
 })
 
-function inversion(){
+function finalizar() {
+    clearInterval(refreshId);
+    $.ajax({
+        url: 'http://localhost:8080/Forex-web/api/transaccion/finalizar',
+        type: 'GET',
+        contentType: "application/json",
+        headers: {
+            'token-auto': document.cookie
+        },
+        success: function (data, textstatus, jQxhr) {
+            alert(data.respuesta)
+            window.location = "u_transactions.html";
+        },
+        error: function (data, textstatus, jQxhr) {
+            console.log("mal")
+        }
+
+    })
+}
+
+function inversion() {
     $.ajax({
         url: 'http://localhost:8080/Forex-web/api/usuario/inversion',
         type: 'POST',
@@ -72,13 +115,13 @@ function inversion(){
 
 function gana(actual, base, pip) {
 
-    total = total + ((actual - base) * pip)*100000
-    return ((actual - base) * pip)*100000
+    total = total + ((actual - base) * pip) * 100000
+    return ((actual - base) * pip) * 100000
 }
 
 function vender(id) {
     $.ajax({
-        url: 'http://localhost:8080/Forex-web/api/transaccion/venta/'+id,
+        url: 'http://localhost:8080/Forex-web/api/transaccion/venta/' + id,
         type: 'GET',
         contentType: "application/json",
         headers: {
@@ -86,7 +129,7 @@ function vender(id) {
         },
         success: function (data, textstatus, jQxhr) {
             inversion()
-            alert(data.respuesta)            
+            alert(data.respuesta)
         },
         error: function (data, textstatus, jQxhr) {
             alert(data.responseJSON.respuesta)
@@ -98,30 +141,37 @@ function vender(id) {
 
 
 function comprar() {
-    $.ajax({
-        url: 'http://localhost:8080/Forex-web/api/transaccion/comprar',
-        type: 'POST',
-        contentType: "application/json",
-        headers: {
-            'token-auto': document.cookie
-        },
-        data: JSON.stringify({
-            id: 0,
-            userId: 0,
-            divisaId: document.getElementById("divisaSel").value,
-            base: 0,
-            actual: 0,
-            state: false,
-            valuePip: document.getElementById("valor").value
+    if (inver >= document.getElementById("valor").value) {
+        $.ajax({
+            url: 'http://localhost:8080/Forex-web/api/transaccion/comprar',
+            type: 'POST',
+            contentType: "application/json",
+            headers: {
+                'token-auto': document.cookie
+            },
+            data: JSON.stringify({
+                id: 0,
+                userId: 0,
+                divisaId: document.getElementById("divisaSel").value,
+                base: 0,
+                actual: 0,
+                state: false,
+                valuePip: document.getElementById("valor").value
 
-        }),
-        success: function (data, textstatus, jQxhr) {
-            alert(data.respuesta)
-        },
-        error: function (data, textstatus, jQxhr) {
-            alert(data.responseJSON.respuesta)
-        }
+            }),
+            success: function (data, textstatus, jQxhr) {
+                alert(data.respuesta)
+                $('#exampleModal').modal('hide');
+            },
+            error: function (data, textstatus, jQxhr) {
+                alert(data.responseJSON.respuesta)
+            }
 
-    })
+        })
+    }else{
+        alert("Saldo insuficiente")
+    }
+
+
 }
 

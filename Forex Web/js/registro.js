@@ -1,7 +1,7 @@
 $('#formulario').submit(function (evento) {
     evento.preventDefault();
     $.ajax({
-        url: 'http://localhost:8080/Forex-web/api/prueba/registro',
+        url: 'http://localhost:8080/Forex-web/api/usuario/registro',
         type: 'POST',
         contentType: "application/json",
         data: JSON.stringify({
@@ -10,7 +10,7 @@ $('#formulario').submit(function (evento) {
             nameUser : document.getElementById("userName").value,
             email : document.getElementById("email").value,
             password : document.getElementById("password").value,
-            outlay : 0,
+            outlay : document.getElementById("outlay").value,
             earnings : 0
         }),
         success: function (data, textstatus, jQxhr) {

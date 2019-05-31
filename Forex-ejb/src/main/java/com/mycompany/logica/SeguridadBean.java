@@ -19,8 +19,7 @@ public class SeguridadBean implements SeguridadBeanLocal {
 
     public SeguridadBean() {
     }
-
-       
+        
     @Override
     public int validarToken(String token) {
         SeguridadJpaController dao = new SeguridadJpaController();

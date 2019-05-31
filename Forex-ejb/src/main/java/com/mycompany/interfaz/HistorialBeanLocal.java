@@ -14,5 +14,5 @@ import javax.ejb.Local;
 @Local
 public interface HistorialBeanLocal {
     public void agregar();
-    public void listarHistorial();
+    public void listarHistorial(int id);
 }

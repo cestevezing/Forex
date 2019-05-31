@@ -37,6 +37,8 @@ public class UsuerioServer {
 
     @EJB
     private UsuarioBeanLocal user;
+    
+    @EJB
     private SeguridadBeanLocal seguridad;
 
     @GET
@@ -47,9 +49,8 @@ public class UsuerioServer {
         int id = user.login(usuar, pass);
         if (id > 0) {
             String token = issueToken(usuar);
-            //seguridad.agregarToken("hola", id);
-                    
-            rest = Json.createObjectBuilder().add("respuesta", "Ingreso").add("token", "prueba").build();
+            seguridad.agregarToken(token, id);                    
+            rest = Json.createObjectBuilder().add("respuesta", "Ingreso").add("token",token ).build();
             return Response.status(Response.Status.OK).entity(rest).build();
         } else {
             rest = Json.createObjectBuilder().add("respuesta", "No ingreso").build();
@@ -78,10 +79,8 @@ public class UsuerioServer {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("perfil")
     public Response perfil(@HeaderParam("token-auto") String token) {
-        //String token = requestContext.getHeaderString("token-auto");
-        System.out.println(token);
-        //int id = seguridad.validarToken(token);
-        int id = 1;
+        
+        int id = seguridad.validarToken(token);
         UsuarioP resul = user.perfil(id);
         return Response.status(Response.Status.OK).entity(resul).build();
 
@@ -95,8 +94,7 @@ public class UsuerioServer {
     public Response actualizarPerfil(UsuarioP usuar ) {
         
         user.actualizar(usuar);        
-        JsonObject resul  = Json.createObjectBuilder().add("respuesta", "Se actualizo con exito").build();
-          
+        JsonObject resul  = Json.createObjectBuilder().add("respuesta", "Se actualizo con exito").build();          
         return Response.status(Response.Status.OK).entity(resul).build();
     }
 
@@ -105,10 +103,8 @@ public class UsuerioServer {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("inversion")
     public Response inversion( @HeaderParam("token-auto") String token) {
-        //int id = seguridad.validarToken(token);
-        int id = 1;
+        int id = seguridad.validarToken(token);
         double inversion = user.inversion(id);
-        
         JsonObject resul  = Json.createObjectBuilder().add("respuesta",""+inversion).build();
         return Response.status(Response.Status.OK).entity(resul).build();
     }

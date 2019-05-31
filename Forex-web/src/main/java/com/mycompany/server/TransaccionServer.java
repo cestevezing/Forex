@@ -5,9 +5,9 @@
  */
 package com.mycompany.server;
 
+import com.mycompany.interfaz.SeguridadBeanLocal;
 import com.mycompany.interfaz.TransaccionBeanLocal;
 import com.mycompany.pojo.TransaccionP;
-import com.mycompany.pojo.UsuarioP;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -20,7 +20,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -35,19 +34,19 @@ public class TransaccionServer {
     @EJB
     TransaccionBeanLocal trans;
 
+    @EJB
+    SeguridadBeanLocal seguridad;
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("comprar")
     public Response comprar(@HeaderParam("token-auto") String token, TransaccionP nuevo) {
-        //String token = requestContext.getHeaderString("token-auto");
-        System.out.println(token);
-        //int id = seguridad.validarToken(token);
-        int id = 1;
+
+        int id = seguridad.validarToken(token);
         nuevo.setUserId(id);
-        JsonObject rest;
         trans.comprar(nuevo);
-        rest = Json.createObjectBuilder().add("respuesta", "Compra exitosa").build();
+        JsonObject rest = Json.createObjectBuilder().add("respuesta", "Compra exitosa").build();
         return Response.status(Response.Status.OK).entity(rest).build();
 
     }
@@ -55,19 +54,41 @@ public class TransaccionServer {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("actualizar")
-    public Response listarTransaccion(ContainerRequestContext requestContext) {
-        String token = requestContext.getHeaderString("token-auto");
-        System.out.println("Actualizar:" + token);
-        //int id = seguridad.validarToken(token);
-        int id = 1;
+    @Path("listar")
+    public Response listarTransaccion(@HeaderParam("token-auto") String token) {
 
-        trans.actualizar();
-
-        System.out.println("paso--");
+        int id = seguridad.validarToken(token);
         List<TransaccionP> datos = trans.listarTrans(id);
         if (datos.size() > 0) {
             return Response.status(Response.Status.OK).entity(datos).build();
+        } else {
+            JsonObject rest = Json.createObjectBuilder().add("respuesta", "No tiene trasacciones activas").build();
+            return Response.status(Response.Status.NOT_FOUND).entity(rest).build();
+        }
+
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("actualizar")
+    public Response actualizar(@HeaderParam("token-auto") String token) {
+
+        trans.actualizar();
+        JsonObject rest = Json.createObjectBuilder().add("respuesta", "ok").build();
+        return Response.status(Response.Status.OK).entity(rest).build();
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("realizadas")
+    public Response realizdas(@HeaderParam("token-auto") String token) {
+
+        int id = seguridad.validarToken(token);
+        List<TransaccionP> data = trans.listaTransRealizadas(id);
+        if (data.size() > 0) {
+            return Response.status(Response.Status.OK).entity(data).build();
         } else {
             JsonObject rest = Json.createObjectBuilder().add("respuesta", "No tiene trasacciones activas").build();
             return Response.status(Response.Status.NOT_FOUND).entity(rest).build();
@@ -84,6 +105,31 @@ public class TransaccionServer {
         trans.vender(id);
         JsonObject rest = Json.createObjectBuilder().add("respuesta", "Venta con exito").build();
         return Response.status(Response.Status.OK).entity(rest).build();
+
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("finalizar")
+    public Response finalizar(@HeaderParam("token-auto") String token) {
+
+        int id = seguridad.validarToken(token);
+        trans.fializar(id);
+        JsonObject rest = Json.createObjectBuilder().add("respuesta", "Se finalizaron todas las transacciones").build();
+        return Response.status(Response.Status.OK).entity(rest).build();
+
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("historial")
+    public Response historial(@HeaderParam("token-auto") String token) {
+
+        int id = seguridad.validarToken(token);
+        List<TransaccionP> lista = trans.historial(id);
+        return Response.status(Response.Status.OK).entity(lista).build();
 
     }
 

@@ -5,7 +5,12 @@
  */
 package com.mycompany.logica;
 
+import com.mycompany.controller.HistorialJpaController;
+import com.mycompany.entidades.Historial;
 import com.mycompany.interfaz.HistorialBeanLocal;
+import com.mycompany.pojo.HistorialP;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 
 /**
@@ -23,7 +28,8 @@ public class HistorialBean implements HistorialBeanLocal {
     }
 
     @Override
-    public void listarHistorial() {
+    public void listarHistorial(int id) {
+                
     }
 
 }
