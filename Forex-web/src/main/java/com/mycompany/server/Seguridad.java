@@ -19,7 +19,7 @@ import javax.ws.rs.ext.Provider;
 
 /**
  *
- * @author HTTP
+ * @author Valeria y Cristian
  */
 @Provider
 @PreMatching
@@ -29,6 +29,9 @@ public class Seguridad implements ContainerRequestFilter {
     private SeguridadBeanLocal seguridad;
 
     @Override
+    /**
+     * Metodo utilizado para hacer filtro
+     */
     public void filter(ContainerRequestContext requestContext) throws IOException {
         String url = requestContext.getUriInfo().getAbsolutePath().toString();
         if (url.contains("/api/usuario/login")) {

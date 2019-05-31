@@ -7,7 +7,7 @@ package com.mycompany.pojo;
 
 /**
  *
- * @author HTTP
+ * @author Valeria y Cristian
  */
 public class HistorialP {
     private int id;
@@ -17,33 +17,56 @@ public class HistorialP {
     public HistorialP(){
         
     }
-
+    /**
+     * 
+     * @param id
+     * @param divisaId
+     * @param valor 
+     */
     public HistorialP(int id, int divisaId, double valor) {
         this.id = id;
         this.divisaId = divisaId;
         this.valor = valor;
     }
-    
+    /**
+     * 
+     * @return 
+     */
     public int getId() {
         return id;
     }
-
+    /**
+     * 
+     * @param id 
+     */
     public void setId(int id) {
         this.id = id;
     }
-    
+    /**
+     * 
+     * @return 
+     */
     public int getDivisaId() {
         return divisaId;
     }
-
+    /**
+     * 
+     * @param divisaId 
+     */
     public void setDivisaId(int divisaId) {
         this.divisaId = divisaId;
     }
-
+    /**
+     * 
+     * @return 
+     */
     public double getValor() {
         return valor;
     }
-
+    /**
+     * 
+     * @param valor 
+     */
     public void setValor(double valor) {
         this.valor = valor;
     }

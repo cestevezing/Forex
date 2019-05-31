@@ -29,7 +29,7 @@ import javax.ws.rs.core.Response;
 
 /**
  *
- * @author HTTP
+ * @author Valeria y Cristian
  */
 @RequestScoped
 @Path("usuario")
@@ -40,10 +40,14 @@ public class UsuerioServer {
     
     @EJB
     private SeguridadBeanLocal seguridad;
-
+    /* ESTE METODO ES PARA HACER EL INICIO DE SESION DESDE LA PAGINA PRINCIPAL*/
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/login/{user}/{pass}")
+    
+    /**
+     * Metodo utilizado para iniciar sesion
+     */
     public Response login(@PathParam("user") String usuar, @PathParam("pass") String pass) {
         JsonObject rest;
         int id = user.login(usuar, pass);
@@ -62,6 +66,9 @@ public class UsuerioServer {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("registro")
+    /**
+     * Metodo utilizado para registrar
+     */
     public Response registar(UsuarioP nuevo) {
         JsonObject rest;
         if (!user.validaUserName(nuevo.getNameUser(), nuevo.getId())) {
@@ -78,6 +85,9 @@ public class UsuerioServer {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("perfil")
+    /**
+     * Metodo utilizado para generar perfil
+     */
     public Response perfil(@HeaderParam("token-auto") String token) {
         
         int id = seguridad.validarToken(token);
@@ -91,6 +101,9 @@ public class UsuerioServer {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("save")
+    /**
+     * Metodo utilizado para actualizar perfil
+     */
     public Response actualizarPerfil(UsuarioP usuar ) {
         
         user.actualizar(usuar);        
@@ -102,6 +115,9 @@ public class UsuerioServer {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("inversion")
+    /**
+     * Metodo utilizado para realizar inversion
+     */
     public Response inversion( @HeaderParam("token-auto") String token) {
         int id = seguridad.validarToken(token);
         double inversion = user.inversion(id);
@@ -109,7 +125,11 @@ public class UsuerioServer {
         return Response.status(Response.Status.OK).entity(resul).build();
     }
     
-    
+    /**
+     * 
+     * @param login
+     * @return 
+     */
     private String issueToken(String login){
         //Calculamos la fecha de expiración del token
         Date issueDate = new Date();

@@ -41,6 +41,9 @@ public class TransaccionServer {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("comprar")
+    /**
+     * Metodo utilizado para comprar
+     */
     public Response comprar(@HeaderParam("token-auto") String token, TransaccionP nuevo) {
 
         int id = seguridad.validarToken(token);
@@ -55,6 +58,9 @@ public class TransaccionServer {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("listar")
+    /**
+     * Metodo utilizado para listar transacciones realizada
+     */
     public Response listarTransaccion(@HeaderParam("token-auto") String token) {
 
         int id = seguridad.validarToken(token);
@@ -72,6 +78,9 @@ public class TransaccionServer {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("actualizar")
+    /**
+     * Metodo utilizado para actualizar
+     */
     public Response actualizar(@HeaderParam("token-auto") String token) {
 
         trans.actualizar();
@@ -83,6 +92,9 @@ public class TransaccionServer {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("realizadas")
+    /**
+     * Metodo utilizado para listar transacciones realizada
+     */
     public Response realizdas(@HeaderParam("token-auto") String token) {
 
         int id = seguridad.validarToken(token);
@@ -100,6 +112,9 @@ public class TransaccionServer {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/venta/{id}")
+    /**
+     * Metodo utilizado para realizar venta 
+     */
     public Response vender(@HeaderParam("token-auto") String token, @PathParam("id") int id) {
 
         trans.vender(id);
@@ -112,6 +127,9 @@ public class TransaccionServer {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("finalizar")
+    /**
+     * Metodo utilizado para finalizar operacion
+     */
     public Response finalizar(@HeaderParam("token-auto") String token) {
 
         int id = seguridad.validarToken(token);
@@ -125,6 +143,9 @@ public class TransaccionServer {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("historial")
+    /**
+     * Metodo utilizado para generar historial
+     */
     public Response historial(@HeaderParam("token-auto") String token) {
 
         int id = seguridad.validarToken(token);

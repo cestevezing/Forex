@@ -7,7 +7,7 @@ package com.mycompany.pojo;
 
 /**
  *
- * @author HTTP
+ * @author Valeria y Cristian
  */
 public class DivisaP {
 
@@ -17,33 +17,56 @@ public class DivisaP {
     
     public DivisaP() {
     }
-
+/**
+ * 
+ * @param id
+ * @param name
+ * @param value 
+ */
     public DivisaP(int id, String name, double value) {
         this.id = id;
         this.name = name;
         this.value = value;
     }
-    
+    /**
+     * 
+     * @return 
+     */
     public int getId() {
         return id;
     }
-
+    /**
+     * 
+     * @param id 
+     */
     public void setId(int id) {
         this.id = id;
     }
-
+    /**
+     * 
+     * @return 
+     */
     public String getName() {
         return name;
     }
-
+    /**
+     * 
+     * @param name 
+     */
     public void setName(String name) {
         this.name = name;
     }
-
+    /**
+     * 
+     * @return 
+     */
     public double getValue() {
         return value;
     }
-
+    /**
+     * 
+     * @param value 
+     */
     public void setValue(double value) {
         this.value = value;
     }
