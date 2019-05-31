@@ -13,6 +13,10 @@ import javax.ejb.Local;
  */
 @Local
 public interface HistorialBeanLocal {
+    
+    /*
+    Declaracion de metodos
+    */
     public void agregar();
     public void listarHistorial(int id);
 }

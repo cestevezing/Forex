@@ -17,17 +17,21 @@ import javax.transaction.UserTransaction;
 
 /**
  *
- * @author HTTP
+ * @author Valeria y Cristian
  */
 public class TransaccionJpaController implements Serializable {
-
+    /*
+    Constructor de la clase que controla Transaccion con JPA
+    */
     public TransaccionJpaController() {
         this.utx = utx;
         this.em = Persistence.createEntityManagerFactory("com.mycompany_Forex-ejb_ejb_1.0-SNAPSHOTPU").createEntityManager();
     }
     private UserTransaction utx;
     public EntityManager em ;
-
+    /*
+    Metodo que crea
+    */
     public void create(Transaccion transaccion) {
         try {
             em.getTransaction().begin();
@@ -39,7 +43,9 @@ public class TransaccionJpaController implements Serializable {
             //em.close();
         }
     }
-
+    /*
+    Metodo que edita
+    */
     public void edit(Transaccion transaccion) {
         try {
             em.getTransaction().begin();
@@ -55,7 +61,9 @@ public class TransaccionJpaController implements Serializable {
             }
         }
     }
-
+    /*
+    Metodo que elimina
+    */
     public void destroy(Integer id) {
         try {
             em.getTransaction().begin();
@@ -79,7 +87,9 @@ public class TransaccionJpaController implements Serializable {
     public List<Transaccion> findTransaccionEntities(int maxResults, int firstResult) {
         return findTransaccionEntities(false, maxResults, firstResult);
     }
-
+    /*
+    Metodo que retorna
+    */
     private List<Transaccion> findTransaccionEntities(boolean all, int maxResults, int firstResult) {
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -106,7 +116,9 @@ public class TransaccionJpaController implements Serializable {
             }
         }
     }
-
+    /*
+    Metodo que obtiene query
+    */
     public int getTransaccionCount() {
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();

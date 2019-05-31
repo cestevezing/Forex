@@ -24,10 +24,14 @@ import javax.transaction.UserTransaction;
 
 /**
  *
- * @author HTTP
+ * @author Valeria y Cristian
  */
 public class DivisaJpaController implements Serializable {
-
+    
+    /*
+    Constructor de la clase que controla Divida desde JPA
+    */
+    
     public DivisaJpaController() {
         this.utx = utx;
         this.em = Persistence.createEntityManagerFactory("com.mycompany_Forex-ejb_ejb_1.0-SNAPSHOTPU").createEntityManager();
@@ -38,7 +42,9 @@ public class DivisaJpaController implements Serializable {
     public EntityManager getEntityManager() {
         return em;
     }
-
+    /*
+    Metodo crear
+    */
     public void create(Divisa divisa) {
         try {
             em.getTransaction().begin();
@@ -50,7 +56,9 @@ public class DivisaJpaController implements Serializable {
             //em.close();
         }
     }
-
+    /*
+    Metodo editar
+    */
     public void edit(Divisa divisa) {
         try {
             em.getTransaction().begin();
@@ -66,7 +74,9 @@ public class DivisaJpaController implements Serializable {
 
         }
     }
-
+    /*
+    Metodo que elimina
+    */
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         try {
             utx.begin();
@@ -111,7 +121,9 @@ public class DivisaJpaController implements Serializable {
             }
         }
     }
-
+    /*
+    metodo que retorna entidades 
+    */
     public List<Divisa> findDivisaEntities() {
         return findDivisaEntities(true, -1, -1);
     }
@@ -136,7 +148,9 @@ public class DivisaJpaController implements Serializable {
             }
         }
     }
-
+    /*
+    metodo que busca objeto divisa
+    */
     public Divisa findDivisa(Integer id) {
         try {
             return em.find(Divisa.class, id);
@@ -146,7 +160,9 @@ public class DivisaJpaController implements Serializable {
             }
         }
     }
-
+    /*
+    metodo que obtiene query del objeto divisa
+    */
     public int getDivisaCount() {
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();

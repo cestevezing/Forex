@@ -18,10 +18,12 @@ import javax.transaction.UserTransaction;
 
 /**
  *
- * @author HTTP
+ * @author Valeria y Cristian
  */
 public class UsuarioJpaController implements Serializable {
-
+    /*
+    Constructor de la clase que controla Usuario desde JPA
+    */
     public UsuarioJpaController() {
         this.utx = utx;
         this.em = Persistence.createEntityManagerFactory("com.mycompany_Forex-ejb_ejb_1.0-SNAPSHOTPU").createEntityManager();
@@ -32,7 +34,9 @@ public class UsuarioJpaController implements Serializable {
     public EntityManager getEntityManager() {
         return em;
     }
-
+    /*
+    Metodo que crea
+    */
     public void create(Usuario usuario) {
         try {
             em.getTransaction().begin();
@@ -48,7 +52,9 @@ public class UsuarioJpaController implements Serializable {
             }
         }
     }
-
+    /*
+    Metodo que edita
+    */
     public void edit(UsuarioP usuario) {
         try {
             em.getTransaction().begin();
@@ -69,7 +75,9 @@ public class UsuarioJpaController implements Serializable {
             }
         }
     }
-
+    /*
+    Metodo que elimina
+    */
     public void destroy(Integer id) {
         try {
             em.getTransaction().begin();
@@ -92,7 +100,9 @@ public class UsuarioJpaController implements Serializable {
     public List<Usuario> findUsuarioEntities(int maxResults, int firstResult) {
         return findUsuarioEntities(false, maxResults, firstResult);
     }
-
+    /*
+    Metodo que retorna entidades
+    */
     private List<Usuario> findUsuarioEntities(boolean all, int maxResults, int firstResult) {
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -109,7 +119,9 @@ public class UsuarioJpaController implements Serializable {
             }
         }
     }
-
+    /*
+    Metodo que retorna Entidad Usuario
+    */
     public Usuario findUsuario(Integer id) {
         try {
             return em.find(Usuario.class, id);
@@ -119,7 +131,9 @@ public class UsuarioJpaController implements Serializable {
             }
         }
     }
-
+    /*
+    Metodo que obtiene query
+    */
     public int getUsuarioCount() {
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();

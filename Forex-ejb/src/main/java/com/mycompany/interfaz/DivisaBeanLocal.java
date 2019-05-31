@@ -9,10 +9,14 @@ import javax.ejb.Local;
 
 /**
  *
- * @author HTTP
+ * @author Valeria y Cristian
  */
 @Local
 public interface DivisaBeanLocal {
+    
+    /*
+    Declaracion de metodos
+    */
     public void actualizaValor();
     public void listarDiv();
 

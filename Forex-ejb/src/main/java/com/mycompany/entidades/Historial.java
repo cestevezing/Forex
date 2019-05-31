@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author HTTP
+ * @author Valeria y Cristian
  */
 @Entity
 @Table(name = "historial")
@@ -31,8 +31,15 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Historial.findAll", query = "SELECT h FROM Historial h"),
     @NamedQuery(name = "Historial.findById", query = "SELECT h FROM Historial h WHERE h.id = :id"),
     @NamedQuery(name = "Historial.findByValor", query = "SELECT h FROM Historial h WHERE h.valor = :valor")})
+
+
 public class Historial implements Serializable {
+    
+   /*
+    Declaracion de variables y objetos con sus respectivas anotaciones
+    */    
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -45,50 +52,84 @@ public class Historial implements Serializable {
     @JoinColumn(name = "divisa_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Divisa divisaId;
-
+    /*
+    Constructor vacio
+    */
     public Historial() {
     }
-
+    /**
+     * 
+     * @param id 
+     */
     public Historial(Integer id) {
         this.id = id;
     }
-
+    /**
+     * 
+     * @param id
+     * @param valor 
+     */
     public Historial(Integer id, double valor) {
         this.id = id;
         this.valor = valor;
     }
-
+    /**
+     * 
+     * @return 
+     */
     public Integer getId() {
         return id;
     }
-
+    /**
+     * 
+     * @param id 
+     */
     public void setId(Integer id) {
         this.id = id;
     }
-
+    /**
+     * 
+     * @return 
+     */
     public double getValor() {
         return valor;
     }
-
+    /**
+     * 
+     * @param valor 
+     */
     public void setValor(double valor) {
         this.valor = valor;
     }
-
+    /**
+     * 
+     * @return 
+     */
     public Divisa getDivisaId() {
         return divisaId;
     }
-
+    /**
+     * 
+     * @param divisaId 
+     */
     public void setDivisaId(Divisa divisaId) {
         this.divisaId = divisaId;
     }
-
+    /**
+     * 
+     * @return 
+     */
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
-
+    /**
+     * 
+     * @param object
+     * @return 
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -101,7 +142,10 @@ public class Historial implements Serializable {
         }
         return true;
     }
-
+    /**
+     * 
+     * @return 
+     */
     @Override
     public String toString() {
         return "com.mycompany.entidades.Historial[ id=" + id + " ]";

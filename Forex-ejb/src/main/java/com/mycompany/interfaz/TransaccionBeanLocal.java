@@ -16,6 +16,10 @@ import javax.ejb.Local;
 @Local
 public interface TransaccionBeanLocal {
     
+    /*
+    Declaracion de metodos
+    */
+    
     public List<TransaccionP> listarTrans(int userId);
     public void actualizar();
     public void comprar(TransaccionP trans);

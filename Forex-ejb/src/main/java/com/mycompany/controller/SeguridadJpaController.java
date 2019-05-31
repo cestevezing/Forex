@@ -20,21 +20,27 @@ import javax.transaction.UserTransaction;
 
 /**
  *
- * @author HTTP
+ * @author Valeria y Cristian
  */
 public class SeguridadJpaController implements Serializable {
-
+    /*
+    Constructor de la clase que controla la Seguridad con JPA
+    */
     public SeguridadJpaController() {
         this.utx = utx;
         this.em = Persistence.createEntityManagerFactory("com.mycompany_Forex-ejb_ejb_1.0-SNAPSHOTPU").createEntityManager();
     }
     private UserTransaction utx = null;
     public EntityManager em = null;
-
+    /*
+    Metodo que retorna Entidad
+    */
     public EntityManager getEntityManager() {
         return em;
     }
-
+    /*
+    Metodo para crear
+    */
     public void create(Seguridad seguridad) {
         try {
             em.getTransaction().begin();
@@ -48,7 +54,9 @@ public class SeguridadJpaController implements Serializable {
             }
         }
     }
-
+    /*
+    Metodo para editar
+    */
     public void edit(Seguridad seguridad) {
         try {
             em.getTransaction().begin();
@@ -67,7 +75,9 @@ public class SeguridadJpaController implements Serializable {
             }
         }
     }
-
+    /*
+    Metodo para eliminar
+    */
     public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
         
         try {
@@ -95,7 +105,9 @@ public class SeguridadJpaController implements Serializable {
             }
         }
     }
-
+    /*
+    Metodo que retorna Entidad
+    */
     public List<Seguridad> findSeguridadEntities() {
         return findSeguridadEntities(true, -1, -1);
     }
@@ -120,7 +132,9 @@ public class SeguridadJpaController implements Serializable {
             }
         }
     }
-
+    /*
+    Metodo que retorna 
+    */
     public Seguridad findSeguridad(Integer id) {
         try {
             return em.find(Seguridad.class, id);
@@ -130,7 +144,9 @@ public class SeguridadJpaController implements Serializable {
             }
         }
     }
-
+    /*
+    Metodo que obtiene query de la seguridad
+    */
     public int getSeguridadCount() {
         EntityManager em = getEntityManager();
         try {

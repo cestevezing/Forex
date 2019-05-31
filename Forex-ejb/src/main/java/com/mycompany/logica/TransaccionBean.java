@@ -23,14 +23,19 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author HTTP
+ * @author Valeria y Cristian
  */
 @Stateless
 public class TransaccionBean implements TransaccionBeanLocal {
-
+    /**
+     * Constructor vacio
+     */
     public TransaccionBean() {
     }
-
+    /**
+     * Metodo utilizado para realizar la operacion vender
+     * @param id 
+     */
     @Override
     public void vender(int id) {
         TransaccionJpaController dao = new TransaccionJpaController();
@@ -54,7 +59,10 @@ public class TransaccionBean implements TransaccionBeanLocal {
         user.em.close();
         dao.em.close();
     }
-
+    /**
+     * Metodo utilizado para realizar la operacion comprar
+     * @param trans 
+     */
     @Override
     public void comprar(TransaccionP trans) {
         UsuarioJpaController user = new UsuarioJpaController();
@@ -77,7 +85,11 @@ public class TransaccionBean implements TransaccionBeanLocal {
         user.em.close();
 
     }
-
+    /**
+     * Metodo utilizado para listar transacciones
+     * @param userId
+     * @return 
+     */
     @Override
     public List<TransaccionP> listarTrans(int userId) {
         List<TransaccionP> salida = new ArrayList<>();
@@ -95,6 +107,12 @@ public class TransaccionBean implements TransaccionBeanLocal {
         return salida;
 
     }
+    
+    /**
+     * Metodo utilizado para listar transacciones realizadas
+     * @param id
+     * @return 
+     */
     @Override
     public List<TransaccionP> listaTransRealizadas(int id) {
         List<TransaccionP> salida = new ArrayList<>();
@@ -112,7 +130,9 @@ public class TransaccionBean implements TransaccionBeanLocal {
         return salida;
 
     }
-    
+    /**
+     * Metodo utilizado para actualizar
+     */
     @Override
     public void actualizar() {
         DivisaJpaController div = new DivisaJpaController();
@@ -144,7 +164,11 @@ public class TransaccionBean implements TransaccionBeanLocal {
 
         numero = 0;
     }
-
+/**
+ * Metodo utilizado para generar historial
+ * @param userId
+ * @return 
+ */
     @Override
     public List<TransaccionP> historial(int userId) {
         List<TransaccionP> salida = new ArrayList();
@@ -162,11 +186,19 @@ public class TransaccionBean implements TransaccionBeanLocal {
         dao.em.close();
         return salida;
     }
-
+    /**
+     * 
+     * @param numero
+     * @param numeroDecimales
+     * @return 
+     */
     public static Double formatearDecimales(Double numero, Integer numeroDecimales) {
         return Math.round(numero * Math.pow(10, numeroDecimales)) / Math.pow(10, numeroDecimales);
     }
-
+    /**
+     * Metodo utilizado para finalizar operacion
+     * @param id 
+     */
     @Override
     public void fializar(int id) {
         TransaccionJpaController dao = new TransaccionJpaController();

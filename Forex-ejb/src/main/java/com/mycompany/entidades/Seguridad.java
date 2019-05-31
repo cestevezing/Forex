@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author HTTP
+ * @author Valeria y Cristian
  */
 @Entity
 @Table(name = "seguridad")
@@ -30,7 +30,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Seguridad.findById", query = "SELECT s FROM Seguridad s WHERE s.id = :id"),
     @NamedQuery(name = "Seguridad.findByToken", query = "SELECT s FROM Seguridad s WHERE s.token = :token"),
     @NamedQuery(name = "Seguridad.findByUser", query = "SELECT s FROM Seguridad s WHERE s.user = :user")})
+
 public class Seguridad implements Serializable {
+    
+    /*
+    Declaracion de variables y objetos con sus respectivas anotaciones
+    */
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,45 +47,75 @@ public class Seguridad implements Serializable {
     private String token;
     @Column(name = "user")
     private Integer user;
-
+    /*
+    Constructor vacio
+    */
     public Seguridad() {
     }
-
+    /**
+     * 
+     * @param id 
+     */
     public Seguridad(Integer id) {
         this.id = id;
     }
-
+    /**
+     * 
+     * @return 
+     */
     public Integer getId() {
         return id;
     }
-
+    /**
+     * 
+     * @param id 
+     */
     public void setId(Integer id) {
         this.id = id;
     }
-
+    /**
+     * 
+     * @return 
+     */
     public String getToken() {
         return token;
     }
-
+    /**
+     * 
+     * @param token 
+     */
     public void setToken(String token) {
         this.token = token;
     }
-
+    /**
+     * 
+     * @return 
+     */
     public Integer getUser() {
         return user;
     }
-
+    /**
+     * 
+     * @param user 
+     */
     public void setUser(Integer user) {
         this.user = user;
     }
-
+    /**
+     * 
+     * @return 
+     */
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
-
+    /**
+     * 
+     * @param object
+     * @return 
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -93,7 +128,10 @@ public class Seguridad implements Serializable {
         }
         return true;
     }
-
+    /**
+     * 
+     * @return 
+     */
     @Override
     public String toString() {
         return "com.mycompany.entidades.Seguridad[ id=" + id + " ]";

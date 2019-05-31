@@ -12,14 +12,20 @@ import java.util.List;
 import javax.ejb.Stateless;
 
 /**
- * @author HTTP
+ * @author Valeria y Cristian
  */
 @Stateless
 public class SeguridadBean implements SeguridadBeanLocal {
-
+    /**
+     * Constructor vacio
+     */
     public SeguridadBean() {
     }
-        
+    /**
+     * 
+     * @param token
+     * @return 
+     */
     @Override
     public int validarToken(String token) {
         SeguridadJpaController dao = new SeguridadJpaController();
@@ -33,7 +39,11 @@ public class SeguridadBean implements SeguridadBeanLocal {
         dao.em.close();
         return -1;
     }
-
+    /**
+     * 
+     * @param token
+     * @param user 
+     */
     @Override
     public void agregarToken(String token, int user) {
         SeguridadJpaController dao = new SeguridadJpaController();

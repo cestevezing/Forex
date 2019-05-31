@@ -14,19 +14,26 @@ import java.util.List;
 import javax.ejb.Stateless;
 
 /**
- * @author HTTP
+ * @author Valeria y Cristian
  */
 @Stateless
 public class HistorialBean implements HistorialBeanLocal {
 
+    /*
+    Constructor vacio
+    */
     public HistorialBean() {
     }
 
-       
+    /*
+    Implementacion por defecto de los metodos de la interface
+    */
     @Override
     public void agregar() {
     }
-
+    /*
+    Implementacion por defecto de los metodos de la interface
+    */
     @Override
     public void listarHistorial(int id) {
                 

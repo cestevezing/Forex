@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author HTTP
+ * @author Valeria y Cristian
  */
 @Entity
 @Table(name = "usuario")
@@ -37,7 +37,13 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuario.findByPassword", query = "SELECT u FROM Usuario u WHERE u.password = :password"),
     @NamedQuery(name = "Usuario.findByOutlay", query = "SELECT u FROM Usuario u WHERE u.outlay = :outlay"),
     @NamedQuery(name = "Usuario.findByEarnings", query = "SELECT u FROM Usuario u WHERE u.earnings = :earnings")})
+
+
 public class Usuario implements Serializable {
+    
+    /*
+    Declaracion de variables y objetos con sus respectivas anotaciones
+    */
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -72,14 +78,26 @@ public class Usuario implements Serializable {
     private Double earnings;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private List<Transaccion> transaccionList;
-
+    /*
+    Constructor vacio
+    */
     public Usuario() {
     }
-
+    /**
+     * 
+     * @param id 
+     */
     public Usuario(Integer id) {
         this.id = id;
     }
-
+    /**
+     * 
+     * @param id
+     * @param name
+     * @param nameUser
+     * @param email
+     * @param password 
+     */
     public Usuario(Integer id, String name, String nameUser, String email, String password) {
         this.id = id;
         this.name = name;
@@ -87,79 +105,134 @@ public class Usuario implements Serializable {
         this.email = email;
         this.password = password;
     }
-
+    /**
+     * 
+     * @return 
+     */
     public Integer getId() {
         return id;
     }
-
+    /**
+     * 
+     * @param id 
+     */
     public void setId(Integer id) {
         this.id = id;
     }
-
+    /**
+     * 
+     * @return 
+     */
     public String getName() {
         return name;
     }
-
+    /**
+     * 
+     * @param name 
+     */
     public void setName(String name) {
         this.name = name;
     }
-
+    /**
+     * 
+     * @return 
+     */
     public String getNameUser() {
         return nameUser;
     }
-
+    /**
+     * 
+     * @param nameUser 
+     */
     public void setNameUser(String nameUser) {
         this.nameUser = nameUser;
     }
-
+    /**
+     * 
+     * @return 
+     */
     public String getEmail() {
         return email;
     }
-
+    /**
+     * 
+     * @param email 
+     */
     public void setEmail(String email) {
         this.email = email;
     }
-
+    /**
+     * 
+     * @return 
+     */
     public String getPassword() {
         return password;
     }
-
+    /**
+     * 
+     * @param password 
+     */
     public void setPassword(String password) {
         this.password = password;
     }
-
+    /**
+     * 
+     * @return 
+     */
     public Double getOutlay() {
         return outlay;
     }
-
+    /**
+     * 
+     * @param outlay 
+     */
     public void setOutlay(Double outlay) {
         this.outlay = outlay;
     }
-
+    /**
+     * 
+     * @return 
+     */
     public Double getEarnings() {
         return earnings;
     }
-
+    /**
+     * 
+     * @param earnings 
+     */
     public void setEarnings(Double earnings) {
         this.earnings = earnings;
     }
-
+    /**
+     * 
+     * @return 
+     */
     @XmlTransient
     public List<Transaccion> getTransaccionList() {
         return transaccionList;
     }
-
+    /**
+     * 
+     * @param transaccionList 
+     */
     public void setTransaccionList(List<Transaccion> transaccionList) {
         this.transaccionList = transaccionList;
     }
-
+    /**
+     * 
+     * @return 
+     */
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
-
+    /**
+     * 
+     * @param object
+     * @return 
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -172,7 +245,10 @@ public class Usuario implements Serializable {
         }
         return true;
     }
-
+    /**
+     * 
+     * @return 
+     */
     @Override
     public String toString() {
         return "com.mycompany.entidades.Usuario[ id=" + id + " ]";

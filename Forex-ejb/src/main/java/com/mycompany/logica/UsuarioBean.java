@@ -14,14 +14,19 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author HTTP
+ * @author Valeria y Cristian
  */
 @Stateless
 public class UsuarioBean implements UsuarioBeanLocal {
 
     public UsuarioBean() {
     }
-
+    /**
+     * Metodo utilizado para iniciar sesion
+     * @param username
+     * @param pass
+     * @return 
+     */
     @Override
     public int login(String username, String pass) {
 
@@ -37,7 +42,10 @@ public class UsuarioBean implements UsuarioBeanLocal {
         dao.em.close();
         return -1;
     }
-
+    /**
+     * Metodo utilizado para actualizar usuario
+     * @param user 
+     */
     @Override
     public void actualizar(UsuarioP user) {
 
@@ -45,7 +53,12 @@ public class UsuarioBean implements UsuarioBeanLocal {
         dao.edit(user);
         dao.em.close();
     }
-
+    /**
+     * Metodo utilizado para validar
+     * @param username
+     * @param id
+     * @return 
+     */
     @Override
     public boolean validaUserName(String username, int id) {
         UsuarioJpaController dao = new UsuarioJpaController();
@@ -60,7 +73,10 @@ public class UsuarioBean implements UsuarioBeanLocal {
         dao.em.close();
         return false;
     }
-
+    /**
+     * Metodo utilizado para realizar registro
+     * @param user 
+     */
     @Override
     public void registrar(UsuarioP user) {
         UsuarioJpaController dao = new UsuarioJpaController();
@@ -70,7 +86,11 @@ public class UsuarioBean implements UsuarioBeanLocal {
         dao.create(nuevo);
         dao.em.close();
     }
-
+    /**
+     * Metodo utilizado para generar perfil
+     * @param id
+     * @return 
+     */
     @Override
     public UsuarioP perfil(int id) {
         int a = 0;
@@ -88,7 +108,11 @@ public class UsuarioBean implements UsuarioBeanLocal {
 
         return usar;
     }
-
+    /**
+     * Metodo utilizado para realizar inversion
+     * @param id
+     * @return 
+     */
     @Override
     public double inversion(int id) {
         UsuarioJpaController dao = new UsuarioJpaController();

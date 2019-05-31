@@ -10,20 +10,28 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author HTTP
+ * @author Valeria y Cristian
  */
 @Stateless
 public class DivisaBean implements DivisaBeanLocal {
-
+    
+    /*
+    Constructor vacio
+    */
+    
     public DivisaBean() {
     }
 
-    
+    /*
+    Implementacion por defecto de los metodos de la interface
+    */
     @Override
     public void actualizaValor() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    /*
+    Implementacion por defecto de los metodos de la interface
+    */
     @Override
     public void listarDiv() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

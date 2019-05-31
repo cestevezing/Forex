@@ -13,7 +13,9 @@ import javax.ejb.Local;
  */
 @Local
 public interface SeguridadBeanLocal {
-    
+    /*
+    Declaracion de metodos
+    */
     public int validarToken(String token);
     public void agregarToken(String token, int user);
     

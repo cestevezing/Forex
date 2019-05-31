@@ -17,21 +17,33 @@ import javax.transaction.UserTransaction;
 
 /**
  *
- * @author HTTP
+ * @author Valeria y Cristian
  */
 public class HistorialJpaController implements Serializable {
-
+    
+    /*
+    Constructor de la clase que controla el Historial con JPA
+    */
+    
     public HistorialJpaController() {
         this.utx = utx;
         this.em = Persistence.createEntityManagerFactory("com.mycompany_Forex-ejb_ejb_1.0-SNAPSHOTPU").createEntityManager();
     }
     private UserTransaction utx = null;
     public EntityManager em = null;
-
+    
+    /*
+    Metodo que retorna Entidad
+    */
+    
     public EntityManager getEntityManager() {
         return em;
     }
-
+    
+    /*
+    Metodo para crear
+    */
+    
     public void create(Historial historial){
         try {
             em.getTransaction().begin();
@@ -43,7 +55,9 @@ public class HistorialJpaController implements Serializable {
             //em.close();
         }
     }
-
+    /*
+    Metodo para editar
+    */
     public void edit(Historial historial){
         try {
             em.getTransaction().begin();
@@ -72,7 +86,9 @@ public class HistorialJpaController implements Serializable {
     public List<Historial> findHistorialEntities(int maxResults, int firstResult) {
         return findHistorialEntities(false, maxResults, firstResult);
     }
-
+    /*
+    Metodo que retorna entidades 
+    */
     private List<Historial> findHistorialEntities(boolean all, int maxResults, int firstResult) {
         
         try {
@@ -96,7 +112,9 @@ public class HistorialJpaController implements Serializable {
             //em.close();
         }
     }
-
+    /*
+    metodo que obtiene query del historial
+    */
     public int getHistorialCount() {
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
